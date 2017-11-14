@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace gitbash_powerline
 {
     class GitRepo
     {
-        private static int gitProcessTimeout = 10000;
+        private static int gitProcessTimeout = 1000;
 
         public bool isRepo = false;
 
@@ -37,25 +38,44 @@ namespace gitbash_powerline
         public GitRepo(string path)
         {
             this.workingDirectory = path;
+
             getPathInformation(workingDirectory);
+
             if (!this.isRepo)
             {
                 return;
             }
+
             updateIndex();
-            setBranchName();
-            setHasUntrackedAndNotIgnoredState();
-            setHasModifiedFiles();
-            setHasStagedFiles();
+
+            Thread tSetBranchName = new Thread(setBranchName);
+            Thread tSetHasUntrackedAndNotIgnoredState = new Thread(setHasUntrackedAndNotIgnoredState);
+            Thread tSetHasModFiles = new Thread(setHasModifiedFiles);
+            Thread tSetHasStagedFiles = new Thread(setHasStagedFiles);
+            Thread tSetBranchHasUpstream = new Thread(setBranchHasUpstream);
+            Thread tIsInMerge = new Thread(setIsInMerge);
+
+            tSetBranchName.Start();
+            tSetHasUntrackedAndNotIgnoredState.Start();
+            tSetHasModFiles.Start();
+            tSetHasStagedFiles.Start();
+            tSetBranchHasUpstream.Start();
+            tIsInMerge.Start();
+
+            tSetHasUntrackedAndNotIgnoredState.Join();
+            tSetHasModFiles.Join();
+            tSetHasStagedFiles.Join();
+            tIsInMerge.Join();
+
+            tSetBranchName.Join();
             if (!this.isDetachedHead)
             {
-                setBranchHasUpstream();
+                tSetBranchHasUpstream.Join();
                 if (branchHasUpstream)
                 {
                     setOriginInformation();
                 }
             }
-            setIsInMerge();
         }
 
         private void setBranchHasUpstream()
@@ -86,10 +106,10 @@ namespace gitbash_powerline
             mergeHeadPath = mergeHeadPath.Replace("/", "\\\\");
             if (File.Exists(mergeHeadPath))
             {
-                isInMerge = true;
+                this.isInMerge = true;
             } else
             {
-                isInMerge = false;
+                this.isInMerge = false;
             }
         }
 
@@ -114,18 +134,18 @@ namespace gitbash_powerline
             
             if (commitsAhead > 0)
             {
-                isAhead = true;
+                this.isAhead = true;
             } else
             {
-                isAhead = false;
+                this.isAhead = false;
             }
 
             if (commitsBehind > 0)
             {
-                isBehind = true;
+                this.isBehind = true;
             } else
             {
-                isBehind = false;
+                this.isBehind = false;
             }
 
         }
