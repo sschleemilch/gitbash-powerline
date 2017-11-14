@@ -17,6 +17,7 @@ namespace gitbash_powerline
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             printCWD();
 
             repo = new GitRepo(currentWorkingDirectory);
@@ -33,7 +34,7 @@ namespace gitbash_powerline
                 printGitVirginState();
             }
 
-            printPromptSymbol();
+            printPromptSymbol(args[0]);
         }
 
         static void printGitVirginState()
@@ -156,10 +157,17 @@ namespace gitbash_powerline
             }
         }
 
-        static void printPromptSymbol()
+        static void printPromptSymbol(string lastCommandState)
         {
+            BashColor.COLOR promptColor = BashColor.COLOR.PINK;
+
+            if (lastCommandState != "0")
+            {
+                promptColor = BashColor.COLOR.RED;
+            }
+
             string promptSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.TRIANGLE_RIGHT);
-            BashColor.print(" " + promptSymbol + " ", BashColor.COLOR.PINK, BashColor.COLOR.TRANSPARENT);
+            BashColor.print(" " + promptSymbol + " ", promptColor, BashColor.COLOR.TRANSPARENT);
         }
 
         static void printCWD()
