@@ -40,7 +40,7 @@ namespace gitbash_powerline
             if (repo.isInMerge)
             {
                 string mergeSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.MERGE);
-                BashColor.print(" " + mergeSymbol + " MERGE ", BashColor.COLOR.BLACK, BashColor.COLOR.YELLOW);
+                BashColor.print(" " + mergeSymbol + " MERGE ", BashColor.COLOR.BLACK, BashColor.COLOR.ORANGE);
             }
         }
 
@@ -63,13 +63,13 @@ namespace gitbash_powerline
                 {
                     space = "";
                 }
-                BashColor.print(" " + cAhead + uArrow + space, BashColor.COLOR.GREEN, BashColor.COLOR.GREY_DARK);
+                BashColor.print(" " + uArrow + cAhead   + space, BashColor.COLOR.GREEN, BashColor.COLOR.GREY_DARK);
             }
             
             if (repo.isAhead && repo.isBehind)
             {
                 string warningSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.LIGHTNING);
-                BashColor.print(warningSymbol + " ", BashColor.COLOR.YELLOW, BashColor.COLOR.GREY_DARK);
+                BashColor.print(warningSymbol, BashColor.COLOR.YELLOW, BashColor.COLOR.GREY_DARK);
             }
 
             if (repo.isBehind)
@@ -81,7 +81,7 @@ namespace gitbash_powerline
                 {
                     space = "";
                 }
-                BashColor.print(space + dArrow + cBehind + " ", BashColor.COLOR.RED, BashColor.COLOR.GREY_DARK);
+                BashColor.print(space + cBehind + dArrow + " ", BashColor.COLOR.RED, BashColor.COLOR.GREY_DARK);
             }
         }
 
@@ -106,7 +106,7 @@ namespace gitbash_powerline
                     repo.hasStagedFiles ||
                     repo.hasUntrackedFilesNotIgnored)
                 {
-                    branchBGColor = BashColor.COLOR.ORANGE;
+                    branchBGColor = BashColor.COLOR.YELLOW;
                 }
 
                 if (!repo.hasModifiedFiles &&
@@ -129,7 +129,7 @@ namespace gitbash_powerline
             if (repo.hasModifiedFiles)
             {
                 string modSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.PENCIL);
-                BashColor.print(" " + modSymbol + " ", BashColor.COLOR.ORANGE, BashColor.COLOR.GREY_DARK);
+                BashColor.print(" " + modSymbol + " ", BashColor.COLOR.YELLOW, BashColor.COLOR.GREY_DARK);
             }
             if (repo.hasUntrackedFilesNotIgnored)
             {

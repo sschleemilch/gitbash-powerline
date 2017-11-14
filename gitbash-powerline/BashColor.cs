@@ -63,7 +63,7 @@ namespace gitbash_powerline
                 case COLOR.ORANGE:
                     return bgStart + "208" + bgEnd;
                 case COLOR.BLUE:
-                    return bgStart + "33" + bgEnd;
+                    return bgStart + "39" + bgEnd;
                 case COLOR.GREY:
                     return bgStart + "245" + bgEnd;
                 case COLOR.GREY_DARK:
