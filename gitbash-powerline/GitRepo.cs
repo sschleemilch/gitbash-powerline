@@ -25,6 +25,7 @@ namespace gitbash_powerline
         public string commitID;
 
         public bool hasUntrackedFilesNotIgnored;
+        public bool hasUntrackedIgnored;
         public bool hasStagedFiles;
         public bool hasModifiedFiles;
 
@@ -50,6 +51,7 @@ namespace gitbash_powerline
 
             Thread tSetBranchName = new Thread(setBranchName);
             Thread tSetHasUntrackedAndNotIgnoredState = new Thread(setHasUntrackedAndNotIgnoredState);
+            Thread tSetHasUntrackedIgnoredState = new Thread(setHasUntrackedIgnoredState);
             Thread tSetHasModFiles = new Thread(setHasModifiedFiles);
             Thread tSetHasStagedFiles = new Thread(setHasStagedFiles);
             Thread tSetBranchHasUpstream = new Thread(setBranchHasUpstream);
@@ -57,12 +59,14 @@ namespace gitbash_powerline
 
             tSetBranchName.Start();
             tSetHasUntrackedAndNotIgnoredState.Start();
+            tSetHasUntrackedIgnoredState.Start();
             tSetHasModFiles.Start();
             tSetHasStagedFiles.Start();
             tSetBranchHasUpstream.Start();
             tIsInMerge.Start();
 
             tSetHasUntrackedAndNotIgnoredState.Join();
+            tSetHasUntrackedIgnoredState.Join();
             tSetHasModFiles.Join();
             tSetHasStagedFiles.Join();
             tIsInMerge.Join();
@@ -211,6 +215,28 @@ namespace gitbash_powerline
             } else
             {
                 this.hasUntrackedFilesNotIgnored = true;
+            }
+        }
+
+        private void setHasUntrackedIgnoredState()
+        {
+            System.Diagnostics.Process p = new System.Diagnostics.Process();
+            p.StartInfo.FileName = "git.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.Arguments = "ls-files --exclude-standard --others --ignored";
+            p.StartInfo.WorkingDirectory = repoRoot;
+            p.Start();
+            p.WaitForExit(gitProcessTimeout);
+
+            if (p.StandardOutput.ReadToEnd().Trim() == "")
+            {
+                this.hasUntrackedIgnored = false;
+            }
+            else
+            {
+                this.hasUntrackedIgnored = true;
             }
         }
 

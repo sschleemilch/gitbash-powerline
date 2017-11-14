@@ -10,7 +10,7 @@ namespace gitbash_powerline
     {
         public enum COLOR
         {
-            GREEN, RED, BLACK, WHITE, ORANGE, BLUE, GREY, GREY_DARK, GREY_LIGHT, YELLOW, TRANSPARENT
+            GREEN, RED, BLACK, WHITE, ORANGE, BLUE, GREY, GREY_DARK, GREY_LIGHT, YELLOW, TRANSPARENT, PINK
         };
 
         private static string getEscapeSequenceForFGColor(COLOR c)
@@ -41,6 +41,8 @@ namespace gitbash_powerline
                     return fgStart + "190" + fgEnd;
                 case COLOR.TRANSPARENT:
                     return fgStart + "8" + fgEnd;
+                case COLOR.PINK:
+                    return fgStart + "213" + fgEnd;
 
             }
             return null;
@@ -74,6 +76,8 @@ namespace gitbash_powerline
                     return bgStart + "3" + bgEnd;
                 case COLOR.TRANSPARENT:
                     return bgStart + "8" + bgEnd;
+                case COLOR.PINK:
+                    return bgStart + "213" + bgEnd;
 
             }
             return null;

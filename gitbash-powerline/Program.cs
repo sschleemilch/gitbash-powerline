@@ -30,9 +30,22 @@ namespace gitbash_powerline
                 }
                 printGitMergeState();
                 printGitFilesInfos();
+                printGitVirginState();
             }
 
             printPromptSymbol();
+        }
+
+        static void printGitVirginState()
+        {
+            if (!repo.hasModifiedFiles &&
+                !repo.hasStagedFiles &&
+                !repo.hasUntrackedFilesNotIgnored &&
+                !repo.hasUntrackedIgnored)
+            {
+                string loveSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.HEART);
+                BashColor.print(" " + loveSymbol, BashColor.COLOR.RED, BashColor.COLOR.TRANSPARENT);
+            }
         }
 
         static void printGitMergeState()
@@ -145,8 +158,8 @@ namespace gitbash_powerline
 
         static void printPromptSymbol()
         {
-            string promptSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.ARROW_RIGHT);
-            BashColor.print(" " + promptSymbol + " ", BashColor.COLOR.BLUE, BashColor.COLOR.TRANSPARENT);
+            string promptSymbol = UnicodeSymbols.getString(UnicodeSymbols.SYMBOL.TRIANGLE_RIGHT);
+            BashColor.print(" " + promptSymbol + " ", BashColor.COLOR.PINK, BashColor.COLOR.TRANSPARENT);
         }
 
         static void printCWD()

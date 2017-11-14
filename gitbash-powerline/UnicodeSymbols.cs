@@ -25,7 +25,9 @@ namespace gitbash_powerline
             ARROW_RIGHT,
             ARROW_UP,
             ARROW_DOWN,
-            MERGE
+            MERGE,
+            ARROW_RIGHT_2,
+            TRIANGLE_RIGHT
         }
 
         public static string getString(SYMBOL s)
@@ -36,7 +38,7 @@ namespace gitbash_powerline
                 case SYMBOL.ANCHOR:
                     return "\u2693";
                 case SYMBOL.LIGHTNING:
-                    return "\u26A1";
+                    return "\u21AF";
                 case SYMBOL.FLAG:
                     return "\u2691";
                 case SYMBOL.PENCIL:
@@ -52,7 +54,7 @@ namespace gitbash_powerline
                 case SYMBOL.SUN:
                     return "\u2600";
                 case SYMBOL.HEART:
-                    return "\u2764";
+                    return "\u2665";
                 case SYMBOL.DANGER:
                     return "\u26A0";
                 case SYMBOL.ARROW_RIGHT:
@@ -63,6 +65,10 @@ namespace gitbash_powerline
                     return "\u2193";
                 case SYMBOL.MERGE:
                     return "\u26D5";
+                case SYMBOL.ARROW_RIGHT_2:
+                    return "\u21A6";
+                case SYMBOL.TRIANGLE_RIGHT:
+                    return "\u22B3";
             }
             return null;
         }
